@@ -4,7 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { SignedIn, SignOutButton, useAuth } from '@clerk/nextjs';
-import { sidebarLinks } from '@/constants';
+import { SIDEBAR_LINKS } from '@/constants';
+import { useCallback } from 'react';
 
 export default function LeftSidebar() {
   const router = useRouter();
@@ -12,28 +13,31 @@ export default function LeftSidebar() {
 
   const { userId } = useAuth();
 
+  const isActive = useCallback(
+    (route: string) =>
+      (pathname.includes(route) && route.length > 1) || pathname === route,
+    [pathname]
+  );
+
   return (
     <section className="custom-scrollbar leftsidebar">
       <div className="flex w-full flex-1 flex-col gap-6 px-6">
-        {sidebarLinks.map((link) => {
-          const isActive =
-            (pathname.includes(link.route) && link.route.length > 1) ||
-            pathname === link.route;
-
+        {SIDEBAR_LINKS.map((link) => {
           if (link.route === '/profile') link.route = `${link.route}/${userId}`;
 
           return (
             <Link
               href={link.route}
               key={link.label}
-              className={`leftsidebar_link ${isActive && 'bg-primary-500 '}`}>
+              className={`leftsidebar_link ${
+                isActive(link.route) && 'bg-primary-500 '
+              }`}>
               <Image
                 src={link.imgURL}
                 alt={link.label}
                 width={24}
                 height={24}
               />
-
               <p className="text-light-1 max-lg:hidden">{link.label}</p>
             </Link>
           );
@@ -50,7 +54,6 @@ export default function LeftSidebar() {
                 width={24}
                 height={24}
               />
-
               <p className="text-light-2 max-lg:hidden">Logout</p>
             </div>
           </SignOutButton>
