@@ -8,7 +8,7 @@ import { dark } from '@clerk/themes';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Auth',
+  title: 'Auth | Threads',
   description:
     'It is a learning project. It showcase a clone of FullStack MERN Next.js Threads Application',
 };
