@@ -19,6 +19,8 @@ import { UserValidation } from '@/lib/validations/user';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { isBase64Image } from '@/lib/utils';
+import { useUploadThing } from '@/lib/uploadthing';
 
 type Props = {
   user: UserType;
@@ -26,6 +28,8 @@ type Props = {
 };
 
 export function AccountProfile({ user, btnTitle }: Props) {
+  const { startUpload } = useUploadThing('media');
+
   const [files, setFiles] = useState<File[]>([]);
 
   const form = useForm<z.infer<typeof UserValidation>>({
@@ -38,8 +42,21 @@ export function AccountProfile({ user, btnTitle }: Props) {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof UserValidation>) => {
+  const onSubmit = async (values: z.infer<typeof UserValidation>) => {
     console.log(values);
+    const blob = values.profile_photo;
+
+    const hasImageChanged = isBase64Image(blob);
+
+    if (hasImageChanged) {
+      const imgRes = await startUpload(files);
+
+      if (imgRes && imgRes[0].fileUrl) {
+        values.profile_photo = imgRes[0].fileUrl;
+      }
+    }
+
+    // TODO update user profile
   };
 
   const handleImage = (
