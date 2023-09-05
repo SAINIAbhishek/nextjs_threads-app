@@ -1,4 +1,5 @@
 export type ThreadType = {
+  _id?: string;
   text: string;
   author: string;
   community: string;
@@ -17,4 +18,12 @@ export type ThreadCommentType = {
   commentText: string;
   userId: string;
   path: string;
+};
+
+export type DeleteThreadType = {
+  threadId: string;
+  currentUserId: string;
+  authorId: string;
+  parentId: string | null;
+  isComment?: boolean;
 };

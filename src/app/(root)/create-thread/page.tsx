@@ -7,7 +7,6 @@ async function Page() {
   const user = await currentUser();
   if (!user) return null;
 
-  // get organization list created by user
   const userInfo = await GET_USER(user.id);
   if (!userInfo?.onboarded) redirect('/onboarding');
 
