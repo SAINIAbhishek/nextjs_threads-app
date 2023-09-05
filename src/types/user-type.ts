@@ -1,10 +1,18 @@
 export type UserType = {
-  _id?: string;
-  objectId?: string;
+  id?: string;
   username?: string;
-  firstName?: string;
   name?: string;
   bio?: string;
   image?: string;
   imageUrl?: string;
+  onboarded?: boolean;
+  threads?: string[];
+  communities?: string[];
+};
+
+export type UpdateUserType = Required<
+  Pick<UserType, 'username' | 'name' | 'bio' | 'image'>
+> & {
+  userId: string;
+  path: string;
 };

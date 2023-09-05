@@ -21,6 +21,8 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing';
+import { UPDATE_USER } from '@/lib/actions/user.actions';
+import { usePathname, useRouter } from 'next/navigation';
 
 type Props = {
   user: UserType;
@@ -28,6 +30,9 @@ type Props = {
 };
 
 export function AccountProfile({ user, btnTitle }: Props) {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const { startUpload } = useUploadThing('media');
 
   const [files, setFiles] = useState<File[]>([]);
@@ -43,9 +48,7 @@ export function AccountProfile({ user, btnTitle }: Props) {
   });
 
   const onSubmit = async (values: z.infer<typeof UserValidation>) => {
-    console.log(values);
     const blob = values.profile_photo;
-
     const hasImageChanged = isBase64Image(blob);
 
     if (hasImageChanged) {
@@ -56,7 +59,20 @@ export function AccountProfile({ user, btnTitle }: Props) {
       }
     }
 
-    // TODO update user profile
+    await UPDATE_USER({
+      name: values.name,
+      path: pathname,
+      username: values.username,
+      userId: user.id ?? '',
+      bio: values.bio,
+      image: values.profile_photo,
+    });
+
+    if (pathname === '/profile/edit') {
+      router.back();
+    } else {
+      router.push('/');
+    }
   };
 
   const handleImage = (

@@ -1,8 +1,23 @@
 import { AccountProfile } from '@/components/account-profile';
 import { UserType } from '@/types/user-type';
+import { currentUser } from '@clerk/nextjs';
+import { GET_USER } from '@/lib/actions/user.actions';
+import { redirect } from 'next/navigation';
 
 async function Page() {
-  const userData: UserType = {};
+  const user = await currentUser();
+  if (!user) return null; // to avoid typescript warnings
+
+  const userInfo = await GET_USER(user.id);
+  if (userInfo?.onboarded) redirect('/');
+
+  const userData: UserType = {
+    id: user.id,
+    username: userInfo ? userInfo?.username : user.username,
+    name: userInfo ? userInfo?.name : user.firstName ?? '',
+    bio: userInfo ? userInfo?.bio : '',
+    image: userInfo ? userInfo?.image : user.imageUrl,
+  };
 
   return (
     <main className="mx-auto flex max-w-3xl flex-col justify-start px-10 py-20">
