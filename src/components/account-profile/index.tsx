@@ -29,7 +29,7 @@ type Props = {
   btnTitle: string;
 };
 
-export function AccountProfile({ user, btnTitle }: Props) {
+export default function AccountProfile({ user, btnTitle }: Props) {
   const router = useRouter();
   const pathname = usePathname();
 

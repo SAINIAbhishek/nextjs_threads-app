@@ -1,4 +1,4 @@
-import { AccountProfile } from '@/components/account-profile';
+import AccountProfile from '@/components/account-profile';
 import { UserType } from '@/types/user-type';
 import { currentUser } from '@clerk/nextjs';
 import { GET_USER } from '@/lib/actions/user.actions';

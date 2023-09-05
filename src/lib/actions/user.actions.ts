@@ -19,7 +19,7 @@ export async function GET_USER(userId: string) {
       model: Community,
     });
   } catch (error: any) {
-    console.error(error);
+    console.error('Error while fetching user:', error);
     throw new Error(`Failed to fetch user: ${error.message}`);
   }
 }
@@ -46,7 +46,7 @@ export async function UPDATE_USER(data: UpdateUserType): Promise<void> {
       revalidatePath(path);
     }
   } catch (error: any) {
-    console.error(error);
+    console.error('Error while updating user:', error);
     throw new Error(`Failed to create/update user: ${error.message}`);
   }
 }
