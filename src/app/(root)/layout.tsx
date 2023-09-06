@@ -4,10 +4,10 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
-import Topbar from '../../components/topbar';
-import RightSidebar from '../../components/right-sidebar';
-import LeftSidebar from '../../components/left-sidebar';
-import Footer from '../../components/footer';
+import Topbar from '@/components/topbar';
+import LeftSidebar from '@/components/sidebars/left-sidebar';
+import RightSidebar from '@/components/sidebars/right-sidebar';
+import Footer from '@/components/footer';
 
 const inter = Inter({ subsets: ['latin'] });
 

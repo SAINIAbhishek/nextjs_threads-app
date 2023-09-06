@@ -17,6 +17,14 @@ export default function DeleteThread({
 
   if (currentUserId !== authorId || pathname === '/') return null;
 
+  const handleClick = async () => {
+    await DELETE_THREAD(JSON.parse(threadId), pathname);
+
+    if (!parentId || !isComment) {
+      router.push('/');
+    }
+  };
+
   return (
     <Image
       src="/assets/delete.svg"
@@ -24,12 +32,7 @@ export default function DeleteThread({
       width={18}
       height={18}
       className="cursor-pointer object-contain"
-      onClick={async () => {
-        await DELETE_THREAD(JSON.parse(threadId), pathname);
-        if (!parentId || !isComment) {
-          router.push('/');
-        }
-      }}
+      onClick={handleClick}
     />
   );
 }

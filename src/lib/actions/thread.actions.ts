@@ -197,7 +197,7 @@ export async function GET_THREAD(threadId: string) {
   }
 }
 
-export async function addCommentToThread(data: ThreadCommentType) {
+export async function ADD_COMMENT_TO_THREAD(data: ThreadCommentType) {
   const { threadId, commentText, userId, path } = data;
   await connectToDB();
 

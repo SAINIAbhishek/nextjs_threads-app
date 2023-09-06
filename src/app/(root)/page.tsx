@@ -2,7 +2,7 @@ import { currentUser } from '@clerk/nextjs';
 import { GET_USER } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
 import { GET_POSTS } from '@/lib/actions/thread.actions';
-import ThreadCard from '@/components/thread-card';
+import CardThread from '@/components/thread/card-thread';
 import Pagination from '@/components/pagination';
 
 type Props = {
@@ -29,7 +29,7 @@ export default async function Home({ searchParams }: Props) {
         ) : (
           <>
             {result.posts.map((post) => (
-              <ThreadCard
+              <CardThread
                 key={post._id}
                 id={post._id}
                 currentUserId={user.id}

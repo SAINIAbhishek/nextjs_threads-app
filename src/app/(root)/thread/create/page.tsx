@@ -1,7 +1,7 @@
 import { currentUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 import { GET_USER } from '@/lib/actions/user.actions';
-import PostThread from '@/components/post-threads';
+import PostThread from '@/components/thread/post-thread';
 
 async function Page() {
   const user = await currentUser();
