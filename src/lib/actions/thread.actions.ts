@@ -49,7 +49,7 @@ export async function GET_POSTS(pageNumber = 1, pageSize = 20) {
   return { posts, isNext };
 }
 
-export async function CREATE_THREAD(data: UpdateThreadType) {
+export async function CREATE_THREAD(data: UpdateThreadType): Promise<void> {
   try {
     const { text, author, communityId, path } = data;
 

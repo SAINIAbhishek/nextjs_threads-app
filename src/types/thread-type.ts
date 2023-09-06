@@ -4,7 +4,7 @@ export type ThreadType = {
   author: string;
   community: string;
   parentId: string;
-  createdBy: string;
+  createdAt: string;
   children: string[];
 };
 
