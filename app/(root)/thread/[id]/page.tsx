@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation';
 import { currentUser } from '@clerk/nextjs';
-import ThreadCard from '../../../../components/cards/thread-card';
 import { GET_USER } from '@/lib/actions/user.actions';
 import { GET_THREAD } from '@/lib/actions/thread.actions';
 import CommentThread from '@/components/thread/comment-thread';
+import ThreadCard from '@/components/cards/thread-card';
 
 export const revalidate = 0;
 

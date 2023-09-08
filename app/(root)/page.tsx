@@ -2,8 +2,8 @@ import { currentUser } from '@clerk/nextjs';
 import { GET_USER } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
 import { GET_POSTS } from '@/lib/actions/thread.actions';
-import ThreadCard from '../../components/cards/thread-card';
 import Pagination from '@/components/pagination';
+import ThreadCard from '@/components/cards/thread-card';
 
 type Props = {
   searchParams: { [key: string]: string | undefined };

@@ -20,7 +20,7 @@ export default function UserCard({
   personType,
 }: Props) {
   const router = useRouter();
-  const isCommunity = personType === 'COMMUNITY';
+  const isCommunity = personType === 'Community';
 
   const handleClick = () => {
     if (isCommunity) {

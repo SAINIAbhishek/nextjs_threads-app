@@ -40,7 +40,7 @@ export default async function Page({ searchParams }: Props) {
                 name={person.name}
                 username={person.username}
                 imgUrl={person.image}
-                personType="USER"
+                personType="User"
               />
             ))}
           </>
