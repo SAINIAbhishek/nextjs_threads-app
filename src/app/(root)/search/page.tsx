@@ -9,7 +9,7 @@ type Props = {
   searchParams: { [key: string]: string | undefined };
 };
 
-export default async function SearchPage({ searchParams }: Props) {
+export default async function Page({ searchParams }: Props) {
   const user = await currentUser();
   if (!user) return null;
 

@@ -4,7 +4,7 @@ import { currentUser } from '@clerk/nextjs';
 import { GET_USER } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
 
-async function Page() {
+export default async function Page() {
   const user = await currentUser();
   if (!user) return null; // to avoid typescript warnings
 
@@ -31,5 +31,3 @@ async function Page() {
     </main>
   );
 }
-
-export default Page;

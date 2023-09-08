@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import { GET_USER } from '@/lib/actions/user.actions';
 import PostThread from '@/components/thread/post-thread';
 
-async function Page() {
+export default async function Page() {
   const user = await currentUser();
   if (!user) return null;
 
@@ -17,5 +17,3 @@ async function Page() {
     </>
   );
 }
-
-export default Page;

@@ -57,8 +57,12 @@ export default async function Page({ params }: Props) {
               {tab.value === 'threads' && (
                 <ThreadsTab currentUserId={user.id} accountId={userInfo.id} />
               )}
-              {tab.value === 'replies' && <p>No replies to show.</p>}
-              {tab.value === 'tagged' && <p>No tags to show.</p>}
+              {tab.value === 'replies' && (
+                <p className="no-result pt-4">No Result</p>
+              )}
+              {tab.value === 'tagged' && (
+                <p className="no-result pt-4">No Result</p>
+              )}
             </TabsContent>
           ))}
         </Tabs>
