@@ -157,7 +157,7 @@ export async function GET_COMMUNITIES({
   }
 }
 
-export async function ADD_MEMEBER(communityId: string, memberId: string) {
+export async function ADD_MEMBER(communityId: string, memberId: string) {
   try {
     await connectToDB();
 

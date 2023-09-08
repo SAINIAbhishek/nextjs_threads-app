@@ -8,10 +8,11 @@ import { Webhook, WebhookRequiredHeaders } from 'svix';
 import { headers } from 'next/headers';
 
 import { IncomingHttpHeaders } from 'http';
+
 import { NextResponse } from 'next/server';
 
 import {
-  ADD_MEMEBER,
+  ADD_MEMBER,
   CREATE_COMMUNITY,
   DELETE_COMMUNITY,
   REMOVE_MEMBER,
@@ -44,14 +45,14 @@ export const POST = async (request: Request) => {
     'svix-signature': header.get('svix-signature'),
   };
 
-  // Activate Webhook in the Clerk Dashboard.
+  // Activitate Webhook in the Clerk Dashboard.
   // After adding the endpoint, you'll see the secret on the right side.
   const wh = new Webhook(process.env.NEXT_CLERK_WEBHOOK_SECRET || '');
 
-  let event: Event | null = null;
+  let evnt: Event | null = null;
 
   try {
-    event = wh.verify(
+    evnt = wh.verify(
       JSON.stringify(payload),
       heads as IncomingHttpHeaders & WebhookRequiredHeaders
     ) as Event;
@@ -59,16 +60,17 @@ export const POST = async (request: Request) => {
     return NextResponse.json({ message: err }, { status: 400 });
   }
 
-  const eventType: EventType = event?.type!;
+  const eventType: EventType = evnt?.type!;
 
   // Listen organization creation event
   if (eventType === 'organization.created') {
     // Resource: https://clerk.com/docs/reference/backend-api/tag/Organizations#operation/CreateOrganization
-    // Show what event?.data sends from above resource
+    // Show what evnt?.data sends from above resource
     const { id, name, slug, logo_url, image_url, created_by } =
-      event?.data ?? {};
+      evnt?.data ?? {};
 
     try {
+      // @ts-ignore
       await CREATE_COMMUNITY(
         // @ts-ignore
         id,
@@ -95,13 +97,15 @@ export const POST = async (request: Request) => {
   if (eventType === 'organizationInvitation.created') {
     try {
       // Resource: https://clerk.com/docs/reference/backend-api/tag/Organization-Invitations#operation/CreateOrganizationInvitation
-      console.log('Invitation created', event?.data);
+      console.error('Invitation created', evnt?.data);
+
       return NextResponse.json(
         { message: 'Invitation created' },
         { status: 201 }
       );
     } catch (err) {
       console.error(err);
+
       return NextResponse.json(
         { message: 'Internal Server Error' },
         { status: 500 }
@@ -113,12 +117,12 @@ export const POST = async (request: Request) => {
   if (eventType === 'organizationMembership.created') {
     try {
       // Resource: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships#operation/CreateOrganizationMembership
-      // Show what event?.data sends from above resource
-      const { organization, public_user_data } = event?.data;
-      console.log('created', event?.data);
+      // Show what evnt?.data sends from above resource
+      const { organization, public_user_data } = evnt?.data;
+      console.error('created', evnt?.data);
 
       // @ts-ignore
-      await ADD_MEMEBER(organization.id, public_user_data.user_id);
+      await ADD_MEMBER(organization.id, public_user_data.user_id);
 
       return NextResponse.json(
         { message: 'Invitation accepted' },
@@ -126,6 +130,7 @@ export const POST = async (request: Request) => {
       );
     } catch (err) {
       console.error(err);
+
       return NextResponse.json(
         { message: 'Internal Server Error' },
         { status: 500 }
@@ -137,15 +142,17 @@ export const POST = async (request: Request) => {
   if (eventType === 'organizationMembership.deleted') {
     try {
       // Resource: https://clerk.com/docs/reference/backend-api/tag/Organization-Memberships#operation/DeleteOrganizationMembership
-      // Show what event?.data sends from above resource
-      const { organization, public_user_data } = event?.data;
-      console.log('removed', event?.data);
+      // Show what evnt?.data sends from above resource
+      const { organization, public_user_data } = evnt?.data;
+      console.error('removed', evnt?.data);
 
       // @ts-ignore
       await REMOVE_MEMBER(public_user_data.user_id, organization.id);
+
       return NextResponse.json({ message: 'Member removed' }, { status: 201 });
     } catch (err) {
       console.error(err);
+
       return NextResponse.json(
         { message: 'Internal Server Error' },
         { status: 500 }
@@ -153,13 +160,13 @@ export const POST = async (request: Request) => {
     }
   }
 
-  // Listen organization update event
+  // Listen organization updation event
   if (eventType === 'organization.updated') {
     try {
       // Resource: https://clerk.com/docs/reference/backend-api/tag/Organizations#operation/UpdateOrganization
-      // Show what event?.data sends from above resource
-      const { id, logo_url, name, slug } = event?.data;
-      console.log('updated', event?.data);
+      // Show what evnt?.data sends from above resource
+      const { id, logo_url, name, slug } = evnt?.data;
+      console.error('updated', evnt?.data);
 
       // @ts-ignore
       await UPDATE_COMMUNITY(id, name, slug, logo_url);
@@ -167,6 +174,7 @@ export const POST = async (request: Request) => {
       return NextResponse.json({ message: 'Member removed' }, { status: 201 });
     } catch (err) {
       console.error(err);
+
       return NextResponse.json(
         { message: 'Internal Server Error' },
         { status: 500 }
@@ -178,9 +186,9 @@ export const POST = async (request: Request) => {
   if (eventType === 'organization.deleted') {
     try {
       // Resource: https://clerk.com/docs/reference/backend-api/tag/Organizations#operation/DeleteOrganization
-      // Show what event?.data sends from above resource
-      const { id } = event?.data;
-      console.log('deleted', event?.data);
+      // Show what evnt?.data sends from above resource
+      const { id } = evnt?.data;
+      console.error('deleted', evnt?.data);
 
       // @ts-ignore
       await DELETE_COMMUNITY(id);
@@ -191,6 +199,7 @@ export const POST = async (request: Request) => {
       );
     } catch (err) {
       console.error(err);
+
       return NextResponse.json(
         { message: 'Internal Server Error' },
         { status: 500 }
