@@ -51,7 +51,7 @@ export async function GET_COMMUNITY_DETAILS(communityId: string) {
   try {
     await connectToDB();
 
-    return await Community.findOne({
+    const community = await Community.findOne({
       id: communityId,
     }).populate([
       'createdBy',
@@ -61,6 +61,7 @@ export async function GET_COMMUNITY_DETAILS(communityId: string) {
         select: 'name username image _id id',
       },
     ]);
+    return community;
   } catch (error) {
     // Handle any errors
     console.error('Error fetching community details:', error);
@@ -68,13 +69,11 @@ export async function GET_COMMUNITY_DETAILS(communityId: string) {
   }
 }
 
-export async function GET_COMMUNITY_POSTS(communityId: string) {
+export async function GET_COMMUNITY_POSTS(id: string) {
   try {
     await connectToDB();
 
-    return await Community.findById({
-      id: communityId,
-    }).populate({
+    return await Community.findById(id).populate({
       path: 'threads',
       model: Thread,
       populate: [
