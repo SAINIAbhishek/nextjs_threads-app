@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import DeleteThread from '../delete-thread';
+import DeleteThread from '../../thread/delete-thread';
 import { formatDateString } from '@/lib/utils';
 
 type Props = {
@@ -27,7 +27,7 @@ type Props = {
   isComment?: boolean;
 };
 
-export default function CardThread({
+export default function ThreadCard({
   id,
   currentUserId,
   parentId,

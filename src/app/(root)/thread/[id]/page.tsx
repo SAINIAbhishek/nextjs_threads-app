@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { currentUser } from '@clerk/nextjs';
-import CardThread from '@/components/thread/card-thread';
+import ThreadCard from '../../../../components/cards/thread-card';
 import { GET_USER } from '@/lib/actions/user.actions';
 import { GET_THREAD } from '@/lib/actions/thread.actions';
 import CommentThread from '@/components/thread/comment-thread';
@@ -25,7 +25,7 @@ export default async function page({ params }: Props) {
   return (
     <section className="relative">
       <div>
-        <CardThread
+        <ThreadCard
           id={thread._id}
           currentUserId={user.id}
           parentId={thread.parentId}
@@ -47,7 +47,7 @@ export default async function page({ params }: Props) {
 
       <div className="mt-10">
         {thread.children.map((childItem: any) => (
-          <CardThread
+          <ThreadCard
             key={childItem._id}
             id={childItem._id}
             currentUserId={user.id}

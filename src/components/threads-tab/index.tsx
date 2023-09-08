@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { GET_USER_POSTS } from '@/lib/actions/user.actions';
-import CardThread from '@/components/thread/card-thread';
+import ThreadCard from '../cards/thread-card';
 import { UserThreadsType } from '@/types/user-type';
 
 type Props = {
@@ -23,7 +23,7 @@ export default async function ThreadsTab({
   return (
     <section className="mt-9 flex flex-col gap-10">
       {result.threads.map((thread) => (
-        <CardThread
+        <ThreadCard
           key={thread._id}
           id={thread._id}
           currentUserId={currentUserId}
